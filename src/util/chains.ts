@@ -395,7 +395,8 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.ARBITRUM_ONE]: new Token(
     ChainId.ARBITRUM_ONE,
-    '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+    // '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', // TODO: revert this
+    '0x7298e3b0052860d9907B5698eCA30ce49E8EB1Af',
     18,
     'WETH',
     'Wrapped Ether'

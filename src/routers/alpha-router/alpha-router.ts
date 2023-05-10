@@ -886,12 +886,16 @@ export class AlphaRouter
     swapConfig?: SwapOptions,
     partialRoutingConfig: Partial<AlphaRouterConfig> = {}
   ): Promise<SwapRoute | null> {
+    console.log('routing started');
     const { currencyIn, currencyOut } =
       this.determineCurrencyInOutFromTradeType(
         tradeType,
         amount,
         quoteCurrency
       );
+
+    console.log('currency in', currencyIn);
+    console.log('currency out', currencyOut);
 
     const tokenIn = currencyIn.wrapped;
     const tokenOut = currencyOut.wrapped;
@@ -904,6 +908,8 @@ export class AlphaRouter
       'tradeType',
       tradeType === TradeType.EXACT_INPUT ? 'ExactIn' : 'ExactOut'
     );
+
+    console.log('trade type', tradeType);
 
     metric.putMetric(
       `QuoteRequestedForChain${this.chainId}`,
@@ -923,9 +929,13 @@ export class AlphaRouter
       { blockNumber }
     );
 
+    console.log('routingConfig', routingConfig);
+
     const gasPriceWei = await this.getGasPriceWei();
 
     const quoteToken = quoteCurrency.wrapped;
+
+    console.log('quote currency', quoteCurrency);
 
     const [v3GasModel, mixedRouteGasModel] = await this.getGasModels(
       gasPriceWei,
@@ -933,11 +943,16 @@ export class AlphaRouter
       quoteToken
     );
 
+    console.log('v3GasModel', v3GasModel);
+    console.log('mixedRouteGasModel', mixedRouteGasModel);
+
     // Create a Set to sanitize the protocols input, a Set of undefined becomes an empty set,
     // Then create an Array from the values of that Set.
     const protocols: Protocol[] = Array.from(
       new Set(routingConfig.protocols).values()
     );
+
+    console.log('protocols', protocols);
 
     const cacheMode = await this.routeCachingProvider?.getCacheMode(
       this.chainId,
@@ -946,6 +961,9 @@ export class AlphaRouter
       tradeType,
       protocols
     );
+
+    console.log('route caching provider', this.routeCachingProvider);
+    console.log('cache mode', cacheMode);
 
     // Fetch CachedRoutes
     let cachedRoutes: CachedRoutes | undefined;
@@ -1045,6 +1063,8 @@ export class AlphaRouter
       swapRouteFromCachePromise,
       swapRouteFromChainPromise,
     ]);
+
+    console.log('swapRouteFromChain', swapRouteFromChain);
 
     let swapRouteRaw: BestSwapRoute | null;
     if (cacheMode === CacheMode.Livemode && swapRouteFromCache) {
@@ -1402,6 +1422,9 @@ export class AlphaRouter
       routingConfig
     );
 
+    console.log('percents', percents);
+    console.log('amounts', amounts);
+
     const noProtocolsSpecified = protocols.length === 0;
     const v3ProtocolSpecified = protocols.includes(Protocol.V3);
     const v2ProtocolSpecified = protocols.includes(Protocol.V2);
@@ -1412,6 +1435,9 @@ export class AlphaRouter
     const mixedProtocolAllowed =
       [ChainId.MAINNET, ChainId.GÖRLI].includes(this.chainId) &&
       tradeType === TradeType.EXACT_INPUT;
+
+    console.log('v3ProtocolSpecified', v3ProtocolSpecified);
+    console.log('v2ProtocolSpecified', v2ProtocolSpecified);
 
     const quotePromises: Promise<GetQuotesResult>[] = [];
 
@@ -1470,6 +1496,8 @@ export class AlphaRouter
     }
 
     const getQuotesResults = await Promise.all(quotePromises);
+
+    console.log('getQuotesResults', getQuotesResults);
 
     const allRoutesWithValidQuotes: RouteWithValidQuote[] = [];
     const allCandidatePools: CandidatePoolsBySelectionCriteria[] = [];

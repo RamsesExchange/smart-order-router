@@ -115,7 +115,9 @@ export class MixedRouteHeuristicGasModelFactory extends IOnChainGasModelFactory 
     );
 
     let nativeV2Pool: Pair | null;
-    if (V2poolProvider) {
+    // if (V2poolProvider) {       // TODO: mixed routes
+    // eslint-disable-next-line no-constant-condition
+    if (false) {
       /// MixedRoutes
       nativeV2Pool = await getV2NativePool(quoteToken, V2poolProvider);
     }

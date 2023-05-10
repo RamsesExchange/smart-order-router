@@ -6,7 +6,10 @@ import _ from 'lodash';
 
 import { IUniswapV3PoolState__factory } from '../../types/v3/factories/IUniswapV3PoolState__factory';
 import { ChainId } from '../../util';
-import { V3_CORE_FACTORY_ADDRESSES } from '../../util/addresses';
+import {
+  RAMSES_POOL_INIT_CODE_HASH,
+  V3_CORE_FACTORY_ADDRESSES,
+} from '../../util/addresses';
 import { log } from '../../util/log';
 import { poolToString } from '../../util/routes';
 import { IMulticallProvider, Result } from '../multicall-provider';
@@ -230,7 +233,10 @@ export class V3PoolProvider implements IV3PoolProvider {
       tokenA: token0,
       tokenB: token1,
       fee: feeAmount,
+      initCodeHashManualOverride: RAMSES_POOL_INIT_CODE_HASH,
     });
+
+    console.log('poolAddress', poolAddress);
 
     this.POOL_ADDRESS_CACHE[cacheKey] = poolAddress;
 
