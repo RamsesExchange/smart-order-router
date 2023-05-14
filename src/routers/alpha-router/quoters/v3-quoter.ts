@@ -66,7 +66,7 @@ export class V3Quoter extends BaseQuoter<V3Route> {
     // Fetch all the pools that we will consider routing via. There are thousands
     // of pools, so we filter them to a set of candidate pools that we expect will
     // result in good prices.
-    console.log('v3PoolProvider', this.v3PoolProvider);
+
     const { poolAccessor, candidatePools } = await getV3CandidatePools({
       tokenIn,
       tokenOut,

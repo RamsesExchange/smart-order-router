@@ -1,13 +1,13 @@
 {
-  "name": "@uniswap/smart-order-router",
+  "name": "@ramsesexchange/smart-order-router",
   "version": "3.11.2",
-  "description": "Uniswap Smart Order Router",
+  "description": "Ramses Exchange Smart Order Router",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/smart-order-router.git"
+    "url": "https://github.com/RamsesExchange/smart-order-router.git"
   },
   "license": "GPL",
   "keywords": [],
@@ -20,7 +20,7 @@
     "compile-narwhal": "npx typechain --target ethers-v5 --out-dir src/types/other './node_modules/@uniswap/narwhal/artifacts/contracts/**/*.json'",
     "compile-external-types": "npx typechain --target ethers-v5 --out-dir src/types/other 'src/abis/**/*.json'",
     "build": "run-p compile-v3-core-types compile-v3-periphery-types compile-v2-core-types compile-v2-periphery-types compile-router compile-narwhal compile-external-types && run-p build:*",
-    "copy-to-ui":"cp -rf './build' 'C:/Blockchain/Ramses/concentrated-interface/node_modules/@ramses/smart-order-router'",
+    "copy-to-ui":"cp -rf './build' '../concentrated-interface/node_modules/@ramsesexchange/smart-order-router'",
     "build-ui":"run-s build copy-to-ui",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",

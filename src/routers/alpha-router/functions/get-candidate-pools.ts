@@ -3,7 +3,11 @@ import { Token, TradeType } from '@uniswap/sdk-core';
 import { FeeAmount } from '@uniswap/v3-sdk';
 import _ from 'lodash';
 
-import { ITokenListProvider, IV2SubgraphProvider, V2SubgraphPool, } from '../../../providers';
+import {
+  ITokenListProvider,
+  IV2SubgraphProvider,
+  V2SubgraphPool,
+} from '../../../providers';
 import {
   CELO,
   CELO_ALFAJORES,
@@ -53,9 +57,18 @@ import {
   WMATIC_POLYGON_MUMBAI,
   WXDAI_GNOSIS,
 } from '../../../providers/token-provider';
-import { IV2PoolProvider, V2PoolAccessor, } from '../../../providers/v2/pool-provider';
-import { IV3PoolProvider, V3PoolAccessor, } from '../../../providers/v3/pool-provider';
-import { IV3SubgraphProvider, V3SubgraphPool, } from '../../../providers/v3/subgraph-provider';
+import {
+  IV2PoolProvider,
+  V2PoolAccessor,
+} from '../../../providers/v2/pool-provider';
+import {
+  IV3PoolProvider,
+  V3PoolAccessor,
+} from '../../../providers/v3/pool-provider';
+import {
+  IV3SubgraphProvider,
+  V3SubgraphPool,
+} from '../../../providers/v3/subgraph-provider';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../../util';
 import { parseFeeAmount, unparseFeeAmount } from '../../../util/amounts';
 import { log } from '../../../util/log';
@@ -170,11 +183,7 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
     WBTC_MOONBEAM,
     WGLMR_MOONBEAM,
   ],
-  [ChainId.BSC]: [
-    DAI_BSC,
-    USDC_BSC,
-    USDT_BSC,
-  ],
+  [ChainId.BSC]: [DAI_BSC, USDC_BSC, USDT_BSC],
 };
 
 export async function getV3CandidatePools({
@@ -447,7 +456,10 @@ export async function getV3CandidatePools({
               subgraphPool.token1.id == secondHopId)
           );
         })
-        .slice(0, topNSecondHopForTokenAddress?.get(secondHopId) ?? topNSecondHop)
+        .slice(
+          0,
+          topNSecondHopForTokenAddress?.get(secondHopId) ?? topNSecondHop
+        )
         .value();
     })
     .uniqBy((pool) => pool.id)
@@ -470,7 +482,10 @@ export async function getV3CandidatePools({
               subgraphPool.token1.id == secondHopId)
           );
         })
-        .slice(0, topNSecondHopForTokenAddress?.get(secondHopId) ?? topNSecondHop)
+        .slice(
+          0,
+          topNSecondHopForTokenAddress?.get(secondHopId) ?? topNSecondHop
+        )
         .value();
     })
     .uniqBy((pool) => pool.id)
@@ -1013,19 +1028,19 @@ export async function getMixedRouteCandidatePools({
    *
    * This way we can reduce calls to our provider since it's possible to generate a lot of mixed routes
    */
-    /// We only really care about pools involving the tokenIn or tokenOut explictly,
-    /// since there's no way a long tail token in V2 would be routed through as an intermediary
+  /// We only really care about pools involving the tokenIn or tokenOut explictly,
+  /// since there's no way a long tail token in V2 would be routed through as an intermediary
   const V2topByTVLPoolIds = new Set(
-      [
-        ...V2candidatePools.selections.topByTVLUsingTokenIn,
-        ...V2candidatePools.selections.topByBaseWithTokenIn,
-        /// tokenOut:
-        ...V2candidatePools.selections.topByTVLUsingTokenOut,
-        ...V2candidatePools.selections.topByBaseWithTokenOut,
-        /// Direct swap:
-        ...V2candidatePools.selections.topByDirectSwapPool,
-      ].map((poolId) => poolId.id)
-    );
+    [
+      ...V2candidatePools.selections.topByTVLUsingTokenIn,
+      ...V2candidatePools.selections.topByBaseWithTokenIn,
+      /// tokenOut:
+      ...V2candidatePools.selections.topByTVLUsingTokenOut,
+      ...V2candidatePools.selections.topByBaseWithTokenOut,
+      /// Direct swap:
+      ...V2candidatePools.selections.topByDirectSwapPool,
+    ].map((poolId) => poolId.id)
+  );
 
   const V2topByTVLSortedPools = _(V2subgraphPools)
     .filter((pool) => V2topByTVLPoolIds.has(pool.id))
