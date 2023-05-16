@@ -52,7 +52,7 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
   [ChainId.OPTIMISM]:
     'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
   [ChainId.ARBITRUM_ONE]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-minimal',
+    'https://api.thegraph.com/subgraphs/name/sullivany/ramses-cl-subgraph',
   [ChainId.POLYGON]:
     'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
   [ChainId.CELO]:
